@@ -24,62 +24,62 @@ class lggr {
      *  Where we store log files
      *  @var $folder
      */
-    private $folder     = "";
+    private $folder = "";
     
     /**
      *  The default file we will save events into
      *  @var $filename
      */
-    private $file   = "eventlog";
+    private $file = "eventlog";
 
     /**
      *  A default for $file. After logging we reset
      *  $file back to this constant for consistency.
      */
-    const file      = "eventlog";
+    const file = "eventlog";
 
     /**
      *  The default log level
      *  @var string
      */
-    var $level      = "INFO";
+    var $level = "INFO";
 
     /**
      *  A default for $level. After logging we reset
      *  $level back to this constant for consistency.
      */
-    const level     = "INFO";
+    const level = "INFO";
 
     /**
      *  The time the next log is written at
      *  @var string
      */
-    var $time       = "";
+    var $time = "";
 
     /**
      *  The user that triggered this error.
      *  @var string
      */
-    var $user       = "";
+    var $user = "";
 
     /**
      * The location in the file that this log was
      * instantiated at.
      * @var string
      */
-    var $location   = "";
+    var $location = "";
 
     /**
      * A user-friendly message of what went wrong.
      * @var string
      */
-    var $message    = "";
+    var $message = "";
 
     /**
      * All of the error messages we may toss. For cleanliness's sake.
      * @var array
      */
-    private $errors     = array(
+    private $errors = array(
         "bad_directory"         => "The log directory specified, '%s', does not exist and could not be created.",
         "unwritable_directory"  => "The log folder, '%s', is not writable.",
         "unfound_method"        => "The method '%s' does not exist.",
@@ -116,16 +116,16 @@ class lggr {
     }
 
 	/**
-     * Overload method
-     * @param  string $name name of the log type we are writing
-     * @param  string $message error message we want to type
-	 * @throws lggrException if we try to overload without prefixing 'log'
+     *  Overload method
+     *  @param  string $name name of the log type we are writing
+     *  @param  string $message error message we want to type
+	 *  @throws lggrException if we try to overload without prefixing 'log'
      */
     function __call($name, $message) {
         if(substr($name, 0, 3) !== "log") {
             throw new lggrException(sprintf($this->errors["unfound_method"], $name));
         }
-	    $backtrace      = debug_backtrace();
+		$backtrace      = debug_backtrace();
 
         $this->level    = strtoupper(substr_replace($name, '', 0, 3));
 	    $this->message  = $message[0];
@@ -134,8 +134,8 @@ class lggr {
         $this->location = $backtrace[1]["file"].":".$backtrace[1]["line"];
         $this->save();
 
-	    // Reset some defaults
-	    $this->level    = $this::level;
+		// Reset some defaults
+		$this->level    = $this::level;
         $this->file     = $this::file;
         $this->message  = "";
     }
