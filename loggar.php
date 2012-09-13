@@ -18,7 +18,7 @@
  * @package Loggar
  * @link https://github.com/titusjohnson/loggar
  *
- * @changes     0.2.1
+ * @changes     0.2.1   Renamed project from 'lggr' to 'loggar' to avoid project collision. Fixed some spacing issues.
  * @changes     0.2     Rewrote initial idea into a simpler class [tgj, 2012-9-12]
  * @changes     0.1     The initial idea [tgj, 2012-9-11]
  */
