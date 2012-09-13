@@ -1,22 +1,26 @@
 <?php
 /**
- * Generic class for logging events to file.
- * 
- * lggr is a simple class for writing events to log file. Every
- * webapp can benefit from logging. If logging is as simple as one
- * line of code, you'll do it more often.
+ * Loggar is a simple class for writing events to log file.
  *
  * Every log written contains the following information:
- *
+ * ----------------------------------------------------------------
  * level    - Level of the error.
- * time     - The current time in @todo find format.
+ * time     - The current time in M/D/Y H:M:S.
  * user     - IP of the user that triggered this error.
  * location - The location in the code that generated this message.
- * message  - An plain text description of what’s going on.
+ * message  - A plain text description of what happened.
+ * ----------------------------------------------------------------
  *
- * @author Titus Johnson - amishforkfight@gmail.com
- * @version 0.1
  * @copyright 2012 Titus Johnson
+ * @author Titus Johnson [tgj] <amishforkfight@gmail.com>
+ * @license MIT
+ *
+ * @package Loggar
+ * @link https://github.com/titusjohnson/loggar
+ *
+ * @changes     0.2.1
+ * @changes     0.2     Rewrote initial idea into a simpler class [tgj, 2012-9-12]
+ * @changes     0.1     The initial idea [tgj, 2012-9-11]
  */
 class loggar {
 
@@ -115,27 +119,27 @@ class loggar {
         return $this;
     }
 
-	/**
+    /**
      *  Overload method
      *  @param  string $name name of the log type we are writing
      *  @param  string $message error message we want to type
-	 *  @throws loggarException if we try to overload without prefixing 'log'
+     *  @throws loggarException if we try to overload without prefixing 'log'
      */
     function __call($name, $message) {
         if(substr($name, 0, 3) !== "log") {
             throw new loggarException(sprintf($this->errors["unfound_method"], $name));
         }
-		$backtrace      = debug_backtrace();
+        $backtrace      = debug_backtrace();
 
         $this->level    = strtoupper(substr_replace($name, '', 0, 3));
-	    $this->message  = $message[0];
+        $this->message  = $message[0];
         $this->time     = date("m/d/j h:i:s", time());
         $this->user     = $_SERVER["REMOTE_ADDR"];
         $this->location = $backtrace[1]["file"].":".$backtrace[1]["line"];
         $this->save();
 
-		// Reset some defaults
-		$this->level    = $this::level;
+        // Reset some defaults
+        $this->level    = $this::level;
         $this->file     = $this::file;
         $this->message  = "";
     }
