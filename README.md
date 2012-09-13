@@ -1,4 +1,4 @@
-# LGGR
+# Loggar - Simple logging for PHP projects
 
 Loggar is a PHP error logging class developed for simple, quick, searchable logging. It focuses on ease of use with the intent of promoting more logging.
 
